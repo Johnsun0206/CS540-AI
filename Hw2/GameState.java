@@ -13,7 +13,7 @@ public class GameState {
    */
   public GameState(int size) {
 
-    this.size = size;
+    this.size = size; 
 
     // For convenience, we use 1-based index, and set 0 to be unavailable
     this.stones = new boolean[this.size + 1];
@@ -47,12 +47,13 @@ public class GameState {
 
     List<Integer> list = new ArrayList<>();
     if (lastMove == -1) {
-      for(int i = 1; i <= this.size; i++) {
-        list.add(i);
+      for (int i = 1; i <= this.size; i++) {
+        if((i < size/2.0) && (i % 2 != 0))
+          list.add(i);
       }
     } else {
       for (int i = 1; i <= this.size; i++) {
-        if (stones[i] == true && (lastMove % i == 0 || isMultiple(lastMove, i, size))) {
+        if (stones[i] == true && (lastMove % i == 0 || isMultiple(i, lastMove, size))) {
           list.add(i);
         }
       }
@@ -62,14 +63,10 @@ public class GameState {
     return list;
   }
 
-
+  // x is a multiple of y
   private static boolean isMultiple(int x, int y, int size) {
 
-    int i = 2;
-    while (i * y <= size) {
-      if (i * y == x)
-        return true;
-    }
+    if(x % y == 0) return true;
     return false;
   }
 
@@ -95,52 +92,54 @@ public class GameState {
    * @return double This is the static score of given state
    */
   public double evaluate() {
-    
+
     double result;
-    
-    if(getMoves().contains(1)) return 0.0;
-    if(lastMove == 1) {
+
+    if (getMoves().contains(1))
+      return 0.0;
+    if (getSuccessors().size() == 0) {
+      result = -1.0;
+    } else if (lastMove == 1) {
       int size = getSuccessors().size();
-      if(size % 2 == 0) 
+      if (size % 2 == 0)
         result = -0.5;
-      else 
-        result =  0.5;
-    } else if(Helper.isPrime(lastMove)) {
-        int count = countMultiple(lastMove);
-        if(count % 2 != 0) 
-          result = 0.7;
-        else 
-          result = -0.7;
+      else
+        result = 0.5;
+    } else if (Helper.isPrime(lastMove)) {
+      int count = countMultiples(lastMove);
+      if (count % 2 != 0)
+        result = 0.7;
+      else
+        result = -0.7;
     } else {
-       int primefactor = Helper.getLargestPrimeFactor(lastMove);
-       int count = countMultiple(primefactor);
-       if(getMoves().contains(primefactor)) count++;
-       if(count % 2 != 0) 
-         result = 0.6;
-       else
-         result = -0.6;
+      int primefactor = Helper.getLargestPrimeFactor(lastMove);
+      int count = countMultiples(primefactor);
+      if(stones[primefactor]) count++;
+      if (count % 2 != 0)
+        result = 0.6;
+      else
+        result = -0.6;
     }
+
+     if (countStonesTaken() % 2 != 0) result = result * (-1);
     
-    if((countStonesTaken() % 2 == 0) || countStonesTaken() == size) 
-      return result;
-    else 
-      result = result * (-1);
-      return result;
+    return result;
   }
-  
-  private int countStonesTaken() {
+
+  public int countStonesTaken() {
     int count = 0;
-    for(int i = 1; i <= this.size; i++) {
-      if(stones[i]) count++;
+    for (int i = 1; i <= this.size; i++) {
+      if (!stones[i])
+        count++;
     }
     return count;
   }
-  
-  private int countMultiple(int x) {
-    
+
+  public int countMultiples(int x) {
+
     int count = 0;
-    for(Integer i : getMoves()) {
-      if(isMultiple(x,i,this.size))
+    for (GameState s: getSuccessors()) {
+      if (isMultiple(s.getLastMove(), x, this.size))
         count++;
     }
     return count;
