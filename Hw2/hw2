@@ -1,0 +1,21 @@
+cd /Users/apple/Lingjun\ Sun\ WorkSpace/540hw2/src
+
+javac ./*.java
+
+java TakeStones 3 0 0 
+
+cat /Users/apple/Desktop/Computer\ Science/CS\ 540/HW\ 2/skeleton_code/testcases/output1.txt
+
+echo "    \n"
+
+java TakeStones 7 1 1 2
+
+cat /Users/apple/Desktop/Computer\ Science/CS\ 540/HW\ 2/skeleton_code/testcases/output2.txt
+
+echo "    \n"
+
+java TakeStones 10 3 4 2 6 4
+
+cat /Users/apple/Desktop/Computer\ Science/CS\ 540/HW\ 2/skeleton_code/testcases/output3.txt
+
+rm -r ./*.class
