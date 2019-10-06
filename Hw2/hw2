@@ -18,4 +18,32 @@ java TakeStones 10 3 4 2 6 4
 
 cat /Users/apple/Desktop/Computer\ Science/CS\ 540/HW\ 2/skeleton_code/testcases/output3.txt
 
+echo input1
+java TakeStones 5 0 0 
+
+echo input2
+java TakeStones 9 0 0 5
+
+echo input3
+java TakeStones 10 1 1 0
+
+echo input4
+java TakeStones 20 0 0 5
+
+echo input5
+java TakeStones 5 1 3 1
+
+echo input6
+java TakeStones 11 3 3 6 2 0 
+
+echo input7
+java TakeStones 19 3 9 3 6 5
+
+echo input8 
+java TakeStones 15 4 7 1 4 8 3 
+
+echo input9 
+java TakeStones 15 5 7 1 4 12 6 0 
+
 rm -r ./*.class
+
