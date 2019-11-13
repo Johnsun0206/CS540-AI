@@ -1,0 +1,23 @@
+cd /Users/apple/Lingjun\ Sun\ WorkSpace/540hw4/src
+
+javac *.java
+
+java DigitClassifier 5 0.01 100 train1.txt test1.txt > output1.txt
+
+echo "Output 1"
+
+cat output1.txt
+
+java DigitClassifier 10 0.01 1 train1.txt test1.txt > output2.txt
+
+echo "Output 2"
+
+cat output2.txt
+
+java DigitClassifier 50 0.01 20 train1.txt test1.txt > output3.txt
+
+echo "Output 3"
+
+cat output3.txt
+
+rm *.class
